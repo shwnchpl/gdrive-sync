@@ -27,10 +27,12 @@
 #   * Be sure to check return from ALL git commands (and all commands) to be
 #     sure they're executed properly.
 #   * Figure out how to handle the default README.md.
-#   * Print usage.
 #   * Check home director for config file by default.
 #   * Setup README.md.
 #   * Setup man page and add to autoconf build.
+#   * Move todo stuff to a real todo.
+#   * Look in home directory for config file.
+#   * Should --no-create not call git init?
 #
 # NOT TODO:
 #   * Add functionality for sending mail regarding latest git commit. Use:
@@ -49,6 +51,7 @@
 #   * Double quote varialbe references (ouch)
 #   * Make an explicit verbose mode that gives all ouput. Non verbose mode should run rsync
 #     quiet, gcamlfuse quiet, and not show would-be green messages.
+#   * Make print usage actually do something useful.
 #
 ###############################################################################
 
@@ -92,9 +95,40 @@ if test -t 1; then # Check if stderr is a terminal.
   fi
 fi
 
-# Functions [SHAWN] move up
+# Functions [SHAWN] move up?
 function print_usage {
-  echo "Usage"
+  echo "Usage: $STATE_PROGRAM_NAME --option=\"value\" --option"
+  echo ""
+  echo "$STATE_PROGRAM_NAME is a simple script for version controlled local Google Drive backups using google-drive-ocamlfuse, rsync, and git."
+  echo ""
+  echo "Options:"
+  echo "-c=[FILE], --config=[FILE]        Use [FILE] as a config file."
+  echo "-s=[DIR], --src=[DIR]             Use [DIR] as a source directory."
+  echo "-d=[DEST], --dest=[DEST]          Use [DIR] as a dest directory."
+  echo "--sync-dir-name=[DIR]             Use [DIR] as a sync directory. Sync"
+  echo "                                  directory is the directory within the"
+  echo "                                  destination directory where to which"
+  echo "                                  actually synced."
+  echo "--sync-commit-message=[MESSAGE]   Append [MESSAGE] to each automatically"
+  echo "                                  generated commit, following the timestamp."
+  echo "                                  Defaults to \"$STATE_PROGRAM_NAME\"."
+  echo "--mount-label=[LABEL]             Call google-drive-ocamlfuse with [LABEL]"
+  echo "                                  as account label."
+  echo ""
+  echo "--no-delete                       Do not delete any files on sync."
+  echo "-q, --quiet                       Suppress all output."
+  echo "-v, --verbose                     Issue the most output."
+  echo "--no-mount                        Assume the source directory is not a"
+  echo "                                  mount point and/or that it already"
+  echo "                                  contains the files we want to sync."
+  echo "--no-colors                       No colored output. This shouldn't be"
+  echo "                                  necessary on terminals that do not"
+  echo "                                  support color."
+  echo "--no-create                       Do not create any new directories."
+  echo "-h, --help                        Print this message."
+  echo ""
+  echo "Please report bugs to https://github.com/shwnchpl/gdrive-sync or shwnchpl@gmail.com."
+  echo ""
 }
 
 function formatted_output {
@@ -182,7 +216,7 @@ do
       ARG_NO_CREATE="yes"
       shift
     ;;
-    --help)
+    -h|--help)
       print_usage
       exit 0
     ;;
