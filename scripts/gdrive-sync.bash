@@ -24,15 +24,11 @@
 
 ###############################################################################
 # TODO:
-#   * Be sure to check return from ALL git commands (and all commands) to be
-#     sure they're executed properly.
-#   * Figure out how to handle the default README.md.
-#   * Check home director for config file by default.
 #   * Setup README.md.
 #   * Setup man page and add to autoconf build.
 #   * Move todo stuff to a real todo.
-#   * Look in home directory for config file.
 #   * Should --no-create not call git init?
+#   * Document/make example config file.
 #
 # NOT TODO:
 #   * Add functionality for sending mail regarding latest git commit. Use:
@@ -52,6 +48,10 @@
 #   * Make an explicit verbose mode that gives all ouput. Non verbose mode should run rsync
 #     quiet, gcamlfuse quiet, and not show would-be green messages.
 #   * Make print usage actually do something useful.
+#   * Check home director for config file by default.
+#   * Be sure to check return from ALL git commands (and all commands) to be
+#     sure they're executed properly.
+#   * Figure out how to handle the default README.md (just keep it simple)
 #
 ###############################################################################
 
@@ -95,7 +95,7 @@ if test -t 1; then # Check if stderr is a terminal.
   fi
 fi
 
-# Functions [SHAWN] move up?
+# Functions
 function print_usage {
   echo "Usage: $STATE_PROGRAM_NAME --option=\"value\" --option"
   echo ""
@@ -227,7 +227,7 @@ do
   esac
 done
 
-CONFIG_FILE=${ARG_CONFIG_FILE:-git_sync_config}
+CONFIG_FILE=${ARG_CONFIG_FILE:-~/.gdsconfig}
 
 if [[ -f $CONFIG_FILE ]]; then
   . $CONFIG_FILE
@@ -301,12 +301,17 @@ fi
     formatted_output_warn "No repo exists. Creating..."
     git init 2>&1 >&"$VERBOSE_FILE_DESC" || formatted_output_and_fail "Failed to create repo. Terminating." "$ERR_GIT_INIT_FAIL" 2>&1 >&"$VERBOSE_FILE_DESC"
 
-    # Just something to get us started for now [SHAWN]
-    echo "$STATE_PROGRAM_NAME" > README.md || formatted_output_and_fail "Failed to create README.md. Terminating." "$ERR_README_CREATE_FAIL"
+    echo "$STATE_PROGRAM_NAME auto generated git repo." > README.md || formatted_output_and_fail "Failed to create README.md. Terminating." "$ERR_README_CREATE_FAIL"
 
-    # Check if this stuff succeeds? [SHAWN]
     git add . 2>&1 >&"$VERBOSE_FILE_DESC"
+    if [[ $? != 0 ]]; then
+      formatted_output_warn "Failed to stage fils for git commit. Continuing..."
+    fi
+
     git commit -m "Initial commit." 2>&1 >&"$VERBOSE_FILE_DESC"
+    if [[ $? != 0]]; then
+      formatted_output_warn "Failed to commit to git repo. Continuing..."
+    fi
   fi 
 )
 
@@ -325,7 +330,9 @@ if [[ -z "$CONFIG_NO_MOUNT" ]]; then
 
   # Clear the cache prior to mounting to be sure we have the latest files.
   google-drive-ocamlfuse -cc $([[ ! -z "$CONFIG_MOUNT_LABEL" ]] && echo "-label $CONFIG_MOUNT_LABEL") 2>&1 >&"$VERBOSE_FILE_DESC"
-  # Should check to see how this goes here [SHAWN].
+  if [[ $? != 0 ]]; then
+    formatted_output_warn "Failed to clear google-drive-ocamlfuse cache. Files may not be up to date."
+  fi
 
   google-drive-ocamlfuse $([[ ! -z "$CONFIG_MOUNT_LABEL" ]] && echo "-label $CONFIG_MOUNT_LABEL") "$CONFIG_SRC_DIR" 2>&1 >&"$VERBOSE_FILE_DESC"
   if [[ $? = 0 ]] && findmnt -M "$CONFIG_SRC_DIR" &> /dev/null; then
@@ -350,10 +357,13 @@ fi
   git add . 2>&1 >&"$VERBOSE_FILE_DESC"
   git diff-index --quiet HEAD -- &> /dev/null
   
-  if [[ ! $? = 0 ]]; then
+  if [[ $? != 0 ]]; then
     # We have changes to commit.
-    # Should check this too. [SHAWN]
     git commit -m "$(date -Iseconds): $CONFIG_SYNC_COMMIT_MESSAGE" 2>&1 >&"$VERBOSE_FILE_DESC"
+    if [[ $? != 0]]; then
+      formatted_output_and_fail "Failed to commit synced changes to git repo. Terminating."
+    fi
+
     git show --stat
   fi
 )
