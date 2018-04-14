@@ -22,7 +22,7 @@ AS_IF([test -z "$GOOGLE_DRIVE_OCAMLFUSE"], [AC_MSG_ERROR([google-drive-ocamlfuse
 
 AC_CONFIG_FILES([
   Makefile
-  scripts/Makefile
+  src/Makefile
 ])
 
 AC_OUTPUT

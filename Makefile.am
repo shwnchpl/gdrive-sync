@@ -1,1 +1,1 @@
-SUBDIRS = scripts $(subdirs)
+SUBDIRS = src $(subdirs)
