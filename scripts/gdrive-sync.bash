@@ -29,6 +29,8 @@
 #   * Move todo stuff to a real todo.
 #   * Should --no-create not call git init?
 #   * Document/make example config file.
+#   * Set up some kind of intelligent version interpolation using autotools/sed?
+#   * Build man page as part of make process.
 #
 # NOT TODO:
 #   * Add functionality for sending mail regarding latest git commit. Use:
@@ -55,8 +57,8 @@
 #
 ###############################################################################
 
-# Fixed position arguments
-STATE_PROGRAM_NAME=$0
+# Constant strings
+CONST_PROGRAM_NAME="gdrive-sync"
 
 # Constant error numbers
 ERR_INVALID_ARGUMENT=1
@@ -97,21 +99,21 @@ fi
 
 # Functions
 function print_usage {
-  echo "Usage: $STATE_PROGRAM_NAME --option=\"value\" --option"
+  echo "Usage: $CONST_PROGRAM_NAME --option=\"value\" --option"
   echo ""
-  echo "$STATE_PROGRAM_NAME is a simple script for version controlled local Google Drive backups using google-drive-ocamlfuse, rsync, and git."
+  echo "$CONST_PROGRAM_NAME is a simple script for version controlled local Google Drive backups using google-drive-ocamlfuse, rsync, and git."
   echo ""
   echo "Options:"
-  echo "-c=[FILE], --config=[FILE]        Use [FILE] as a config file."
-  echo "-s=[DIR], --src=[DIR]             Use [DIR] as a source directory."
-  echo "-d=[DEST], --dest=[DEST]          Use [DIR] as a dest directory."
-  echo "--sync-dir-name=[DIR]             Use [DIR] as a sync directory. Sync"
+  echo "-c=[FILE], --config=[FILE]        Use [FILE] as the configuration file."
+  echo "-s=[DIR], --src=[DIR]             Use [DIR] as the source directory."
+  echo "-d=[DEST], --dest=[DEST]          Use [DIR] as the dest directory."
+  echo "--sync-dir-name=[DIR]             Use [DIR] as the sync directory. Sync"
   echo "                                  directory is the directory within the"
-  echo "                                  destination directory where to which"
+  echo "                                  destination directory to which files are"
   echo "                                  actually synced."
   echo "--sync-commit-message=[MESSAGE]   Append [MESSAGE] to each automatically"
   echo "                                  generated commit, following the timestamp."
-  echo "                                  Defaults to \"$STATE_PROGRAM_NAME\"."
+  echo "                                  Defaults to \"$CONST_PROGRAM_NAME\"."
   echo "--mount-label=[LABEL]             Call google-drive-ocamlfuse with [LABEL]"
   echo "                                  as account label."
   echo ""
@@ -134,7 +136,7 @@ function print_usage {
 function formatted_output {
   __message_color=$([[ -z "$CONFIG_NO_COLORS" ]] && echo "${2:-"$FORMAT_COLOR_GREEN"}")
   __prefix_color=$([[ -z "$CONFIG_NO_COLORS" ]] && echo "$FORMAT_COLOR_CYAN")
-  printf "$__prefix_color%s:$FORMAT_NORMAL $__message_color%s$FORMAT_NORMAL\n" "$STATE_PROGRAM_NAME" "$*"
+  printf "$__prefix_color%s:$FORMAT_NORMAL $__message_color%s$FORMAT_NORMAL\n" "$CONST_PROGRAM_NAME" "$*"
 }
 
 function formatted_output_warn {
@@ -236,7 +238,7 @@ else
 fi
 
 CONFIG_SYNC_DIR_NAME=${ARG_SYNC_DIR_NAME:-${sync_dir_name:-sync}}
-CONFIG_SYNC_COMMIT_MESSAGE=${ARG_SYNC_COMMIT_MESSAGE:=${sync_commit_message:-"$STATE_PROGRAM_NAME"}}
+CONFIG_SYNC_COMMIT_MESSAGE=${ARG_SYNC_COMMIT_MESSAGE:=${sync_commit_message:-"$CONST_PROGRAM_NAME"}}
 CONFIG_NO_DELETE=${ARG_NO_DELETE:-$no_delete}
 CONFIG_MOUNT_LABEL=${ARG_MOUNT_LABEL:-$default_mount_label}
 CONFIG_NO_MOUNT=${ARG_NO_MOUNT:-$no_mount}
@@ -301,7 +303,7 @@ fi
     formatted_output_warn "No repo exists. Creating..."
     git init 2>&1 >&"$VERBOSE_FILE_DESC" || formatted_output_and_fail "Failed to create repo. Terminating." "$ERR_GIT_INIT_FAIL" 2>&1 >&"$VERBOSE_FILE_DESC"
 
-    echo "$STATE_PROGRAM_NAME auto generated git repo." > README.md || formatted_output_and_fail "Failed to create README.md. Terminating." "$ERR_README_CREATE_FAIL"
+    echo "$CONST_PROGRAM_NAME auto generated git repo." > README.md || formatted_output_and_fail "Failed to create README.md. Terminating." "$ERR_README_CREATE_FAIL"
 
     git add . 2>&1 >&"$VERBOSE_FILE_DESC"
     if [[ $? != 0 ]]; then
