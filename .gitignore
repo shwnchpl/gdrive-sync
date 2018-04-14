@@ -8,3 +8,4 @@ Makefile
 Makefile.in
 missing
 *.swp
+*.1

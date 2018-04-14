@@ -25,13 +25,11 @@
 ###############################################################################
 # TODO:
 #   * Setup README.md.
-#   * Build man page as part of make process.
-#   * Setup man page and add to autoconf build.
 #   * Move todo stuff to a real todo.
 #   * Should --no-create not call git init? (update man page if changed).
 #   * Document config file.
 #   * Make example config to be installed to be installed to /etc (update man page).
-#   * Set up some kind of intelligent version interpolation using autotools/sed?
+#   * Set up some kind of intelligent version/module name interpolation using autotools/sed?
 #
 # NOT TODO:
 #   * Add functionality for sending mail regarding latest git commit. Use:
@@ -55,6 +53,8 @@
 #   * Be sure to check return from ALL git commands (and all commands) to be
 #     sure they're executed properly.
 #   * Figure out how to handle the default README.md (just keep it simple)
+#   * Build man page as part of make process.
+#   * Setup man page and add to autoconf build.
 #
 ###############################################################################
 

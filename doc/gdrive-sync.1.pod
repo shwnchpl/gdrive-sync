@@ -1,0 +1,119 @@
+=head1 NAME
+
+gdrive-sync - A simple script for version controlled local Google Drive backups.
+
+=head1 SYNOPSIS
+
+=over 4
+
+=item B<gdrive-sync> [F<options>]
+
+=back
+
+=head1 DESCRIPTION
+
+gdrive-sync is a script that glues together B<google-drive-ocamlfuse>, B<rsync>,
+and B<git> into a utility for version controlled local Google Drive backups.
+
+gdrive-sync can be called manually, or used with a job scheduler like B<cron>
+for regular offline backups.
+
+=head1 OPTIONS
+
+gdrive-sync supports several options, some of which must be either defined in a
+config file or passed as command line arguments.
+
+=head2 Configuration File
+
+Unless an alternate configuration file is explicitly specified with the
+C<--config> option, gdrive-sync uses the file called F<.gdsconfig> in the users
+home directory if it exists.  This configuration file is run as a Bash script,
+which allows for a somewhat dynamic configuration process.
+
+=head2 Command-line Options
+
+=over 4
+
+=item B<-c=>F<FILE>, B<--config=>F<FILE>
+
+Use F<FILE> as the configuration file.
+
+=item B<-s=>F<DIR>, B<--src=>F<DIR>
+
+Mandatory.  Use F<DIR> as the source directory.  Config file option F<src_dir>.
+
+=item B<-d=>F<DEST>, B<--dest=>F<DEST>
+
+Mandatry.  Use F<DIR> as the destination directory.  Config file option
+F<dest_dir>.
+
+=item B<--sync-dir-name=>F<DIR>
+
+Use F<DIR> as the sync directory.  Sync directory is the directory within the
+destination directory to which files are actually synced.  Defaults to F<sync>.
+Config file option F<sync_dir_name>.
+
+=item B<--sync-commit-message=>F<MESSAGE>
+
+Append F<MESSAGE> to each automatically generated commit, following the
+timestamp.  Defaults to F<gdrive-sync>.  Config file option
+F<sync_commit_message>.
+
+=item B<--mount-label=>F<LABEL>
+
+Call google-drive-ocamlfuse with F<LABEL> as account label.  Defaults to no
+label.  Config file option F<default_mount_label>.
+
+=item B<--no-delete>
+
+Do not delete any files on sync.  Config file option F<no_delete>.
+
+=item B<-q>, B<--quiet>
+
+Suppress all output.  Overrides B<--verbose>.  Config file option F<quiet_mode>.
+
+=item B<-v>, B<--verbose>
+
+Issue the most output.  Config file option F<verbose_mode>.
+
+=item B<--no-mount>
+
+Assume the source directory is not a mount point and/or that it already contains
+the files we want to sync.  Use this if you keep your drive mounted or if, for
+some reason, you do not want to call B<google-drive-ocamlfuse>.  Config file
+option F<no_mount>.
+
+=item B<--no-colors>
+
+No colored output.  Use this if you would prefer not to have colored output.
+Terminals that do not support colored output automatically do not get it
+regardless of whether this option is set.  Config file option F<no_colors>.
+
+=item B<--no-create>
+
+Do not create any new directories.  This will cause gdrive-sync to fail if the
+source, destination, or sync directory is missing.  Config file option
+F<no_create>.
+
+=item B<-h>, B<--help>
+
+Display program usage information.
+
+=back
+
+=head1 AUTHOR
+
+Shawn M. Chapla - L<https://github.com/shwnchpl>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2018 Shawn M. Chapla.
+
+License GPLv2+: GNU GPL version 2 or later L<https://www.gnu.org/licenses/gpl.html>.  This is free softare: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+
+=head1 SEE ALSO
+
+B<google-drive-ocamlfuse>(1), B<rsync>(1), B<git>(1)
+
+=cut
+

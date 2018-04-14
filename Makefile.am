@@ -1,1 +1,1 @@
-SUBDIRS = src $(subdirs)
+SUBDIRS = doc src $(subdirs)
