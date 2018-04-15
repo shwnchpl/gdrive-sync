@@ -22,42 +22,6 @@
 # USA.
 ###############################################################################
 
-###############################################################################
-# TODO:
-#   * Setup README.md.
-#   * Move todo stuff to a real todo.
-#   * Should --no-create not call git init? (update man page if changed).
-#   * Document config file.
-#   * Make example config to be installed to be installed to /etc (update man page).
-#   * Set up some kind of intelligent version/module name interpolation using autotools/sed?
-#
-# NOT TODO:
-#   * Add functionality for sending mail regarding latest git commit. Use:
-#       git show --stat     
-#     (Actally, cron does this for us, so probably no need).
-#
-# DONE:
-#   * All output should have $0 prepended to make it clear where it comes from.
-#     (Ex. ./git_sync.sh: Error).
-#   * Create a "fail" function that prints something and exits with some code.
-#   * Create an unmount function to reduce code duplication.
-#   * Add no-create option.
-#   * Make an actual git repo and put this there.
-#   * Come up with a better name. (gdrive-sync?)
-#   * Create a makefile/install setup (using autoconf/automake?)
-#   * Double quote varialbe references (ouch)
-#   * Make an explicit verbose mode that gives all ouput. Non verbose mode should run rsync
-#     quiet, gcamlfuse quiet, and not show would-be green messages.
-#   * Make print usage actually do something useful.
-#   * Check home director for config file by default.
-#   * Be sure to check return from ALL git commands (and all commands) to be
-#     sure they're executed properly.
-#   * Figure out how to handle the default README.md (just keep it simple)
-#   * Build man page as part of make process.
-#   * Setup man page and add to autoconf build.
-#
-###############################################################################
-
 # Constant strings
 CONST_PROGRAM_NAME="gdrive-sync"
 
