@@ -28,7 +28,8 @@ config file or passed as command line arguments.
 Unless an alternate configuration file is explicitly specified with the
 C<--config> option, gdrive-sync uses the file called F<.gdsconfig> in the users
 home directory if it exists.  This configuration file is run as a Bash script,
-which allows for a somewhat dynamic configuration process.
+which allows for a somewhat dynamic configuration process.  For an example
+configuration file, see F</etc/gdsconfig>.
 
 =head2 Command-line Options
 
@@ -44,7 +45,7 @@ Mandatory.  Use F<DIR> as the source directory.  Config file option F<src_dir>.
 
 =item B<-d=>F<DEST>, B<--dest=>F<DEST>
 
-Mandatry.  Use F<DIR> as the destination directory.  Config file option
+Mandatory.  Use F<DIR> as the destination directory.  Config file option
 F<dest_dir>.
 
 =item B<--sync-dir-name=>F<DIR>
