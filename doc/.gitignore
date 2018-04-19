@@ -1,2 +1,4 @@
 *.1
+*.pod
+!*.1.pod
 gdsconfig

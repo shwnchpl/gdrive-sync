@@ -1,3 +1,4 @@
+include $(top_srcdir)/local.mk
 
 man_MANS = gdrive-sync.1
 sysconf_DATA = gdsconfig
@@ -9,11 +10,12 @@ EXTRA_DIST = \
 MOSTLYCLEANFILES = $(man_MANS) $(sysconf_DATA)
 
 %.1: %.1.pod Makefile
+	$(process_ac_vars) < $< > $*.pod
 	$(POD2MAN) \
-		--name='GDRIVE-SYNC' \
-		--center='gdrive-sync' \
-		--release='gdrive-sync 0.0.3' \
-		--section=1 $*.1.pod > $@
+		--name="$(shell $(AWK) '{print toupper($$0)}' <<< $(PACKAGE_NAME))" \
+		--center='$(PACKAGE_NAME)' \
+		--release='$(PACKAGE_STRING)' \
+		--section=1 $*.pod > $@
 
 %: sample.% Makefile
 	cp $< $@

@@ -1,6 +1,13 @@
-AC_INIT([gdrive-sync], [0.0.3])
+AC_INIT([gdrive-sync],
+        [0.0.3],
+        [https://github.com/shwnchpl/gdrive-sync/issues],
+        [gdrive-sync],
+        [https://github.com/shwnchpl/gdrive-sync])
 
 AM_INIT_AUTOMAKE([foreign -Wall -Wno-portability])
+
+AC_PROG_SED
+AC_PROG_AWK
 
 AC_PATH_PROG([POD2MAN], [pod2man])
 AS_IF([test -z "$POD2MAN"], [AC_MSG_ERROR([pod2man is required])])
