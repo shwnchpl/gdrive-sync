@@ -7,7 +7,7 @@ EXTRA_DIST = \
 	gdrive-sync.1.pod \
 	sample.gdsconfig
 
-MOSTLYCLEANFILES = $(man_MANS) $(sysconf_DATA)
+MOSTLYCLEANFILES = $(man_MANS) $(man_MANS:.1=.pod) $(sysconf_DATA)
 
 %.1: %.1.pod Makefile
 	$(process_ac_vars) < $< > $*.pod
@@ -18,4 +18,4 @@ MOSTLYCLEANFILES = $(man_MANS) $(sysconf_DATA)
 		--section=1 $*.pod > $@
 
 %: sample.% Makefile
-	cp $< $@
+	$(process_ac_vars) < $< > $@
