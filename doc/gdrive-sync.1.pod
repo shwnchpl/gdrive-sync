@@ -29,7 +29,7 @@ Unless an alternate configuration file is explicitly specified with the
 C<--config> option, gdrive-sync uses the file called F<.gdsconfig> in the users
 home directory if it exists.  This configuration file is run as a Bash script,
 which allows for a somewhat dynamic configuration process.  For an example
-configuration file, see F</etc/gdsconfig>.
+configuration file, see F<@sysconfdir@/gdsconfig>.
 
 =head2 Command-line Options
 
@@ -104,7 +104,7 @@ Display program usage information.
 
 =head1 AUTHOR
 
-Shawn M. Chapla - L<https://github.com/shwnchpl>
+Shawn M. Chapla - L<@PACKAGE_URL@>
 
 =head1 COPYRIGHT
 

@@ -64,6 +64,7 @@ fi
 
 # Functions
 function print_usage {
+  echo "@PACKAGE_STRING@"
   echo "Usage: $CONST_PROGRAM_NAME --option=\"value\" --option"
   echo ""
   echo "$CONST_PROGRAM_NAME is a simple script for version controlled local Google Drive backups using google-drive-ocamlfuse, rsync, and git."
@@ -94,7 +95,7 @@ function print_usage {
   echo "--no-create                       Do not create any new directories."
   echo "-h, --help                        Print this message."
   echo ""
-  echo "Please report bugs to https://github.com/shwnchpl/gdrive-sync or shwnchpl@gmail.com."
+  echo "Please report bugs to @PACKAGE_BUGREPORT@ or shwnchpl@gmail.com."
   echo ""
 }
 

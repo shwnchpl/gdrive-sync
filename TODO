@@ -2,10 +2,9 @@ TODO:
   * Setup README.md.
   * Should --no-create not call git init? (update man page and default config if changed).
   * Set up ability to pass yes/y/true and no/n/false in config file and yield sane results.
-  * Update man page to reflect sysconfigdir /etc sample config file install location
-    (which will have the sysconfigdir prefix). May want to do version/module name
-    interpolation first?
-  * Use intelligent version/module naming in main script, man page, and config file.
+  * Move to_upper Make function into local.mk?
+  * Add -V|--version option? Update help and man page.
+  * Should failure to open hardcoded config file be a non-verbose warn?
 
 DONE:
   * All output should have $0 prepended to make it clear where it comes from.
@@ -30,6 +29,10 @@ DONE:
   * Document config file.
   * Make example config to be installed to be installed to /etc (update man page).
   * Set up some kind of intelligent version/module name interpolation using autotools/sed?
+  * Update man page to reflect sysconfigdir /etc sample config file install location
+    (which will have the sysconfigdir prefix). May want to do version/module name
+    interpolation first?
+  * Use intelligent version/module naming in main script, man page, and config file.
 
 ABANDONED:
   * Add functionality for sending mail regarding latest git commit.
