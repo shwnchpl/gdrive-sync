@@ -5,8 +5,7 @@ gdrive-sync
 2. [Installation](#installation)
 3. [Configuration](#configuration)
 4. [Usage](#usage)
-5. [Examples](#examples)
-6. [License](#license)
+5. [License](#license)
 
 ## About
 
@@ -47,21 +46,85 @@ Then, as root, run:
 
 #### google-drive-ocamlfuse configuration
 
-For best results, google-drive-ocamlfuse should be configured to convert
-Google Docs, Sheets, and Slides into a plain-text format that git can keep
-track of without the added overhead of a binary format.
+For information on installing and configuring google-drive-ocamlfuse, see the
+[google-drive-ocamlfuse wiki](https://github.com/astrada/google-drive-ocamlfuse/wiki).
+If you plan to use gdrive-sync on a headless system (such as a home server or
+VPS), be sure to see the
+[Headless Usage & Authorization](https://github.com/astrada/google-drive-ocamlfuse/wiki/Headless-Usage-&-Authorization)
+page.  If you want to use gdrive-sync (and by extension google-drive-ocamlfuse)
+with multiple Google accounts, you'll have to use google-drive-ocamlfuse labels
+to differentiate the accounts.  This is explained on the
+[Usage](https://github.com/astrada/google-drive-ocamlfuse/wiki/Usage) wiki
+page.
 
-(TODO) (How to do this).
+google-drive-ocamlfuse supports a variety of
+[exportable formats](https://github.com/astrada/google-drive-ocamlfuse/wiki/Exportable-formats).
+For best results with git, I recommend configuring google-drive-ocamlfuse
+to export Docs, Sheets, Slides, and Drawings into a plain-text formats so that
+they can be track them without the added overhead associated with binary
+formats.
 
-Presumably any images or other large binary files you have on Google Drive
-will not be changing often enough to bog your local git repo down.
+To do this, edit ``GDFUSE_CONFIG_DIR/default/config`` or
+``GDFUSE_CONFIG_DIR/gdfuse/label/config`` where ``GDFUSE_CONFIG_DIR`` is the
+location of your google-drive-ocamlfuse configuration (this may be
+``~/.config/gdfuse`` or ``~/.gdfuse``).  There should already be default
+entries for each file type in the configuration file.  Change them to read as
+follows:
 
-For more information on google-drive-ocamlfuse configuration, see this
-[Wiki page](https://github.com/astrada/google-drive-ocamlfuse/wiki/Configuration).
+```
+document_format=rtf
+drawing_format=svg
+presentation_format=txt
+spreadsheet_format=csv
+```
+
+Please note that this is entirely optional and may result in some loss of
+information.  A ``csv`` file, for instance, does not contain the same formatting
+as an ``xlsx`` or ``ods`` file.  The git repo size/performance advantages may be
+outweighed by the need to preserve files more accurately, depending on your
+use case.  It is also worth noting that any images or other large binary files
+you have stored on Google Drive will be exported and tracked in their binary
+state.  The way I use Google Drive, these sorts of files do not change often
+enough to create a serious issue, but it is worth being aware that git will
+more or less keep a copy of every state your binary file has ever been in, and
+from a storage standpoint this could become expensive.
+
+As a safety measure, I also recommend setting ``read_only=true`` to prevent
+any of the Google Drive files from being deleted by the mounted
+google-drive-ocamlfuse file system.
+
+For more information on google-drive-ocamlfuse configuration file options and
+examples, see the [Configuration](https://github.com/astrada/google-drive-ocamlfuse/wiki/Configuration)
+page on the google-drive-ocamlfuse wiki.
 
 #### gdrive-sync configuration
 
-(TODO)
+Unless an alternate configuration file is explicitly specified with the
+``--config`` option, gdrive-sync uses the file called ``.gdsconfig`` in the
+current user's home directory if it exists.  This configuration file is run as
+a Bash script, which allows for a somewhat dynamic configuration process.
+Once gdrive-sync has been installed, an example configuration file named
+``gdsconfig`` can be found in your system configuration directory (which may
+be ``/etc`` or ``/usr/local/etc``).
+
+A configuration file can to set default options for gdrive-sync.  These options
+can always be overridden by command line arguments, but they may come in
+handy if you'd like to avoid having to type the same thing over and over
+again and/or having a huge command in your crontab.  Most all configuration
+that can be done with command line arguments can be done with a configuration
+file.
+
+For instance, adding the following lines to a configuration file
+
+```
+src_dir=~/foo
+dest_dir=~/bar
+verbose_mode=yes
+```
+
+would result in the default source directory (and/or google-drive-ocamlfuse
+mount point) being set to ``~/foo``, the default destination directory being
+set to ``~/bar``, and verbose mode being enabled by default.
 
 ## Usage
 

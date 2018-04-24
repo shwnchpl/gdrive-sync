@@ -1,10 +1,11 @@
 TODO:
-  * Setup README.md.
+  * Proofread README.md.
   * Should --no-create not call git init? (update man page and default config if changed).
   * Set up ability to pass yes/y/true and no/n/false in config file and yield sane results.
   * Move to_upper Make function into local.mk?
   * Add -V|--version option? Update help and man page.
   * Should failure to open hardcoded config file be a non-verbose warn?
+  * Consider adding "Examples" section to README.md.
 
 DONE:
   * All output should have $0 prepended to make it clear where it comes from.
@@ -33,6 +34,7 @@ DONE:
     (which will have the sysconfigdir prefix). May want to do version/module name
     interpolation first?
   * Use intelligent version/module naming in main script, man page, and config file.
+  * Setup README.md.
 
 ABANDONED:
   * Add functionality for sending mail regarding latest git commit.
