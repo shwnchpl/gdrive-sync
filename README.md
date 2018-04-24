@@ -120,13 +120,9 @@ entry.
 If you want to be extra sure that your crontab entry will do what you think, I
 recommend using a tool like [crontab.guru](https://crontab.guru/) to check it.
 
-## Examples
-
-(TODO)
-
 ## License
 
 Copyright (C) 2018 Shawn M. Chapla.
 
-License GPLv2+: GNU GPL version 2 or later <https://www.gnu.org/licenses/gpl.html>.  This is free softare: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+License GPLv2+: GNU GPL version 2 or later <https://www.gnu.org/licenses/gpl.html>.  This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
 

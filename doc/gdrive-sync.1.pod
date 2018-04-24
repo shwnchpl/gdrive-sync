@@ -26,7 +26,7 @@ config file or passed as command line arguments.
 =head2 Configuration File
 
 Unless an alternate configuration file is explicitly specified with the
-C<--config> option, gdrive-sync uses the file called F<.gdsconfig> in the users
+C<--config> option, gdrive-sync uses the file called F<.gdsconfig> in the user's
 home directory if it exists.  This configuration file is run as a Bash script,
 which allows for a somewhat dynamic configuration process.  For an example
 configuration file, see F<@sysconfdir@/gdsconfig>.
@@ -110,7 +110,7 @@ Shawn M. Chapla - L<@PACKAGE_URL@>
 
 Copyright (C) 2018 Shawn M. Chapla.
 
-License GPLv2+: GNU GPL version 2 or later L<https://www.gnu.org/licenses/gpl.html>.  This is free softare: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+License GPLv2+: GNU GPL version 2 or later L<https://www.gnu.org/licenses/gpl.html>.  This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
 
 =head1 SEE ALSO
 
